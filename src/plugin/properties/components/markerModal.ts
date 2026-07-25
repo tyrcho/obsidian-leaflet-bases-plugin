@@ -1,11 +1,14 @@
 import { App, ColorComponent, DropdownComponent, Modal, Setting } from "obsidian";
 import { Constants as C } from "@plugin/constants";
 import { t } from "@plugin/i18n/locale";
-import { MarkerModalMode, MarkerObject } from "@plugin/types";
+import { MarkerModalMode, MarkerObject, NoteNameFieldOptions, NoteSelection } from "@plugin/types";
 import { SchemaValidator } from "@plugin/validation/schemaValidators";
 import { Validator } from "@plugin/validation/validators";
+import { IconPreviewComponent } from "./iconPreviewComponent";
 import { IconSuggest } from "./iconSuggest";
 import { MarkerModalErrorComponent } from "./markerModalErrorComponent";
+import { NoteSuggest } from "./noteSuggest";
+import { openMatchingMap } from "./openMatchingMap";
 
 function buildColourOptionsObject(): Record<string, string> {
 	return Object.fromEntries(
@@ -18,19 +21,35 @@ function buildColourOptionsObject(): Record<string, string> {
 
 export class MarkerModal extends Modal {
 	private value: Partial<MarkerObject>;
+	private noteSelection: NoteSelection;
 	private submitEnabledCallback: (isEnabled: boolean) => void = () => {};
 
 	constructor(
 		app: App,
-		onSubmit: (result: MarkerObject) => void,
+		onSubmit: (result: MarkerObject, noteSelection: NoteSelection) => void,
 		initialValue: MarkerObject | undefined,
 		mode: MarkerModalMode,
+		noteNameField?: NoteNameFieldOptions,
 	) {
 		super(app);
 		this.setTitle(t(`modal.title.${mode}`));
 
 		this.value = initialValue ?? {};
 		const coordinatesValidator = Validator.coordinates;
+
+		if (noteNameField) {
+			new Setting(this.contentEl)
+				.setName(t("modal.noteName.title"))
+				.setDesc(t("modal.noteName.description"))
+				.addSearch((searchField) => {
+					searchField.onChange((value) => {
+						this.noteSelection = value !== "" ? value : undefined;
+					});
+					new NoteSuggest(app, searchField, noteNameField.existingFiles, (file) => {
+						this.noteSelection = file;
+					});
+				});
+		}
 
 		new Setting(this.contentEl)
 			.setName(t("modal.mapName.title"))
@@ -69,13 +88,30 @@ export class MarkerModal extends Modal {
 			});
 
 		new Setting(this.contentEl)
+			.setName(t("modal.openMap.title"))
+			.setDesc(t("modal.openMap.description"))
+			.addButton((button) => {
+				button
+					.setButtonText(t("modal.openMap.button"))
+					.onClick(() => void openMatchingMap(app, this.value.mapName));
+			});
+
+		let iconPreview: IconPreviewComponent;
+		new Setting(this.contentEl)
 			.setName(t("modal.icon.title"))
 			.setDesc(t("modal.icon.description"))
+			.addComponent((containerEl) => {
+				iconPreview = new IconPreviewComponent(containerEl).setIcon(this.value.icon);
+				return iconPreview;
+			})
 			.addSearch((searchField) => {
 				searchField
 					.setValue(this.value.icon ?? "")
 					.setPlaceholder(t("modal.icon.placeholder"))
-					.onChange((value) => (this.value.icon = value !== "" ? value : undefined));
+					.onChange((value) => {
+						this.value.icon = value !== "" ? value : undefined;
+						iconPreview.setIcon(this.value.icon);
+					});
 				new IconSuggest(app, searchField);
 			});
 
@@ -123,7 +159,7 @@ export class MarkerModal extends Modal {
 				.onClick(() => {
 					if (SchemaValidator.marker(this.value)) {
 						this.close();
-						onSubmit(this.value);
+						onSubmit(this.value, this.noteSelection);
 					}
 				});
 			this.setSubmitEnabledCallback((isEnabled) => {

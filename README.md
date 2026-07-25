@@ -80,10 +80,17 @@ views:
 
 1. Add a new marker property to the note you want to have a marker.
    ![add marker property](docs/add-marker-property.png)
-2. Add a marker using the '+' button that appeared. Fill in the form in the modal and click 'Create marker'.
+2. Add a marker using the '+' button that appeared. If the vault has more than one Leaflet map view, pick which one the marker belongs to, then click on that map to set the marker's coordinates. Fill in the form in the modal and click 'Create marker'.
    ![add marker modal](docs/add-marker-modal.png)
 3. You can add more markers using the '+' button, add markers by clicking the tags, or remove them using the 'x' buttons.
    ![edit marker modal](docs/add-marker-edit.png)
+
+#### Using the map
+
+1. Enable the "create note" tool in the plugin settings (`Settings` → `Leaflet bases` → `Enable create note tool`).
+2. Select the "Create note here" tool (📄) in the map's toolbar and click a spot on the map.
+3. Fill in the form. In the note name field, either type a name to create a new note there, or pick an existing note shown in the base to add the marker to that note instead.
+4. New notes are created at your vault's default location for new notes.
 
 #### Using source code frontmatter
 
@@ -116,9 +123,30 @@ marker:
 
 > Coordinates can easily be obtained using the 'copy' (📌) tool in the map. Clicking a spot on the map automatically copies the coordinates to your clipboard.
 
+### Map tools
+
+The map has a toolbar in the top-left corner. The optional tools can each be turned on or off in the plugin settings; the pan tool shows whenever at least one optional tool is enabled.
+
+| Tool              | Icon | What it does                                                                                                             |
+| ----------------- | ---- | ------------------------------------------------------------------------------------------------------------------------- |
+| Pan               | 🖱️   | Pans the map. Also lets you drag an existing marker to a new spot; its coordinates in the note's frontmatter are updated automatically on drop. |
+| Measure           | 📏   | Click two points to measure the distance between them, using the map's `scale` and `unit` settings.                     |
+| Copy coordinates  | 📌   | Click a spot to copy its coordinates to your clipboard.                                                                  |
+| Create note here  | 📄   | Click a spot to open the marker form and create a note for it, or add the marker to an existing note. See [Adding a marker](#adding-a-marker). |
+
 ### Adding icons to Obsidian
 
 > Any icons added to Obsidian using another plugin should work just fine as long as their icons stick to Obsidian's design limitations. However, these icons likely won't work with Quartz.
+
+#### Browsing Iconify icon sets
+
+1. Open your vault settings. Under community plugins, go to `Leaflet bases`.
+2. Under `Additional icon sets`, click `Browse icon sets`.
+3. Search for the icon set you want, and click `Add`.
+
+#### Adding a set manually
+
+Use this if you already have an icon set `.json` file, or need a custom set not on Iconify's registry.
 
 1. Go to the [Iconify website](https://icon-sets.iconify.design/) and find the iconset you want.
 2. Select any icon and find the set prefix. In the image this is `game-icons`

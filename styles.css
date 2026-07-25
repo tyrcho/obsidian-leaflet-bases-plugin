@@ -9,12 +9,54 @@ div.bases-leaflet-map-container div.bases-leaflet-map img.leaflet-image-layer {
 	margin: 0;
 }
 
+.leaflet-map-coordinate-picker-modal {
+	width: min(90vw, 900px);
+}
+.leaflet-map-coordinate-picker-modal div.bases-leaflet-map {
+	width: 100%;
+	background-color: rgba(80, 120, 180, 0.1);
+}
+
 .bases-leaflet-view-search-icon-span {
 	display: flex;
 }
 .bases-leaflet-view-search-icon-span div {
 	display: inline-block;
 	margin-inline-start: 0.5rem;
+}
+
+.bases-leaflet-view-icon-preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--input-height);
+	height: var(--input-height);
+	color: var(--text-muted);
+}
+
+.bases-leaflet-view-icon-browser-modal {
+	width: min(90vw, 700px);
+}
+.bases-leaflet-view-icon-browser-list {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+.bases-leaflet-view-icon-browser-status {
+	color: var(--text-muted);
+	text-align: center;
+	padding: var(--size-4-4) 0;
+}
+.bases-leaflet-view-icon-browser-preview {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-top: 0.3rem;
+	max-width: 84px;
+}
+.bases-leaflet-view-icon-browser-preview img {
+	width: 20px;
+	height: 20px;
+	opacity: 0.85;
 }
 
 .bases-leaflet-view-setting-empty {

@@ -1,4 +1,4 @@
-import { BasesViewRegistration, IconName } from "obsidian";
+import { BasesViewRegistration, IconName, TFile } from "obsidian";
 import { IconifyInfo, IconifyJSONIconsData } from "@iconify/types";
 import { BasesLeafletViewPlugin } from "./plugin";
 
@@ -57,6 +57,7 @@ export abstract class Manager {
 export interface BasesLeafletViewSettings {
 	enableMeasureTool: boolean;
 	enableCopyTool: boolean;
+	enableCreateNoteTool: boolean;
 	iconData: IconifyJSONIconsObject[];
 }
 
@@ -64,3 +65,9 @@ export enum MarkerModalMode {
 	Add = "add",
 	Edit = "edit",
 }
+
+export type NoteSelection = string | TFile | undefined;
+
+export type NoteNameFieldOptions = {
+	existingFiles: TFile[];
+};

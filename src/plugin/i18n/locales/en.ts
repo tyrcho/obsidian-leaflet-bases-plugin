@@ -12,13 +12,32 @@ export default {
 				title: "Enable copy tool",
 				description: "Enable tool that allows you to copy coordinated to your clipboard",
 			},
+			createNote: {
+				title: "Enable create note tool",
+				description: "Enable tool that creates a new note with a marker at the clicked location",
+			},
 		},
 		icons: {
 			title: "Additional icon sets",
+			browse: {
+				settingName: "Browse Iconify icon sets",
+				settingDescription:
+					"Search Iconify's collection of open-source icon sets and add one with a single click.",
+				buttonText: "Browse icon sets",
+				title: "Browse Iconify icon sets",
+				searchPlaceholder: "Search by name, prefix, or category",
+				addButtonText: "Add",
+				addedButtonText: "Added",
+				loading: "Loading icon sets…",
+				loadError: "Could not load the Iconify collection list. Check your connection and try again.",
+				retry: "Retry",
+				addError: "There was an error adding this icon set",
+				empty: "No icon sets match your search",
+			},
 			add: {
-				title: "Add iconify icon set",
+				title: "Add iconify icon set manually",
 				description: {
-					start: "Additional",
+					start: "Already have a file, or need a custom set not on Iconify's registry? Additional",
 					previewLink: "Iconify icon sets",
 					middle: "can be downloaded as .json files at the",
 					githubLink: "Iconify GitHub repository",
@@ -65,6 +84,10 @@ export default {
 			[MarkerModalMode.Add]: "Create marker",
 			[MarkerModalMode.Edit]: "Submit changes",
 		},
+		noteName: {
+			title: "Note name",
+			description: 'Optional. Name for the new note, defaults to "Untitled" if left empty.',
+		},
 		mapName: {
 			title: "Map name",
 			description:
@@ -77,6 +100,11 @@ export default {
 				required: "Value is required",
 				invalid: "Value not a valid coordinate",
 			},
+		},
+		openMap: {
+			title: "Show on map",
+			description: "Open the base and Leaflet map view this marker belongs to.",
+			button: "Open map",
 		},
 		icon: {
 			title: "Icon",
@@ -118,9 +146,35 @@ export default {
 					failure: "Failed copying coordinates to clipboard",
 				},
 			},
+			createNote: {
+				label: "Create note here",
+				defaultName: "Untitled",
+				notice: {
+					failure: "Failed creating note",
+				},
+			},
+		},
+		markerDrag: {
+			notice: {
+				failure: "Failed moving marker",
+			},
 		},
 	},
 	marker: {
 		name: "Marker",
+		picker: {
+			baseModal: {
+				placeholder: "Select a base with a Leaflet map view",
+			},
+			mapModal: {
+				title: "Pick coordinates",
+				description: "Click on the map to set this marker's coordinates.",
+			},
+			notice: {
+				noMaps: "No Leaflet map views found in this vault",
+				noMatchingMap: "No Leaflet map view found for this marker's map name",
+				imageLoadFailed: "Failed to load the map image",
+			},
+		},
 	},
 };
